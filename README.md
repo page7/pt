@@ -87,6 +87,6 @@ Change Log
 ---------------------------
 ######Alpha 0.1
 
-		Date£º2014-10-06<br>
-		Contributor£º[nolan](http://www.nolanchou.com/)<br>
+		Date: 2014-10-06
+		Contributor: nolan
 		* This is the first version.
