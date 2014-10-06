@@ -1,9 +1,10 @@
-#pt
-######A simple / native PHP Framework to do something PHP is not good at.
+pt
 ===========================
+######A simple / native PHP Framework to do something PHP is not good at.
 
 
-##Introduction
+
+Introduction
 ---------------------------
 This PHP framework is tentative. I hope it can provide more possibilities about PHP framework's develop.<br>
 #####1. A especial base class
@@ -49,7 +50,7 @@ You can read pt's code after read "How to use". This is a simple framework, you 
 Welcome everyone to make it better. :)<br>
 
 
-##How To Use
+How To Use
 ---------------------------
 This is a multi-entry framework. You only need include common.php in your file.<br>
 Documents is building... :P<br>
@@ -82,7 +83,7 @@ template::display('login', true);
 ```
 
 
-##Change Log
+Change Log
 ---------------------------
 ######Alpha 0.1
 
