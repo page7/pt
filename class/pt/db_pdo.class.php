@@ -18,6 +18,9 @@ class db_pdo extends db
     // PDOStatement
     protected $_statement = null;
 
+    // bind Values
+    protected $_bindvalues = array();
+
     // trans status
     protected $_trans_active = false;   // useless. PDO have inTransaction.
 
@@ -118,9 +121,6 @@ class db_pdo extends db
         }
         else
         {
-            if (DEBUG)
-                trace('PDO: There is a risk that the query with a string SQL: <code>'.str_replace(array(PHP_EOL, "\t"), ' ', $sql).'</code>');
-
             $sql = str_replace(array(PHP_EOL, "\t"), ' ', trim((string)$sql));
 
             // Not Support : SELECT .. INTO ..
@@ -134,6 +134,8 @@ class db_pdo extends db
                 $this -> _sql_method = 'UPDATE';
             else if (stripos(trim((string)$sql), 'DELETE') === 0)
                 $this -> _sql_method = 'DELETE';
+
+            $this -> _bindvalues = array();
         }
 
         if (!empty($this -> _statement)) $this -> _statement = null;
@@ -157,6 +159,8 @@ class db_pdo extends db
     {
         $this -> _statement -> bindValue($param, $value, (int)$type);
 
+        $this -> _bindvalues[$param] = $type == PDO::PARAM_STR ? "\"{$value}\"" : var_export($value, true);
+
         return $this;
     }
 
@@ -173,6 +177,18 @@ class db_pdo extends db
         foreach ($parameters as $param => $value)
         {
             $this -> bindValue($param, $value, PDO::PARAM_STR);
+            $this -> _bindvalues[$param] = "\"{$value}\"";
+        }
+
+        if (DEBUG)
+        {
+            $sql = preg_replace("/\s{1,}/", " ", $this -> _statement -> queryString);
+            foreach ($this -> _bindvalues as $k => $v)
+            {
+                if (is_numeric($k)) $sql = preg_replace('?', $v, $sql, 1);
+                else $sql = str_replace($k, $v, $sql);
+            }
+            trace('PDO Query: <code>'.$sql.'</code>');
         }
 
         try
