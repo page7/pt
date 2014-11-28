@@ -91,7 +91,7 @@ class _exception extends Exception
         if(IS_AJAX)
         {
             if(!$e['code']) $e['code'] = 9999;
-            json_return('', $e['code'], $e['message']);
+            json_return(null, $e['code'], $e['message']);
         }
 
         if (DEBUG)

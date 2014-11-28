@@ -104,7 +104,7 @@ class log extends base
         if ( file_exists($logfile) && floor($this -> file_max_size) <= filesize($logfile) )
         {
             // any php file function is clear catch, don't need clearstatcache again
-            @rename($logfile, $this -> path.$filename.'_'.(NOW - strtotime('today')).'.log');
+            @rename($logfile, str_replace('.log', '_'.(NOW - strtotime('today')).'.log', $logfile));
         }
 
         // error_log don't need to consider file lock, for php bug##40897
