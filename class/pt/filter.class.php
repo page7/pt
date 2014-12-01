@@ -56,7 +56,7 @@ class filter
      */
     static public function add($tag, $function_to_add, $priority = 10, $accepted_args = 1)
     {
-        $idx = getIdx($tag, $function_to_add);
+        $idx = getidx($function_to_add);
         self::$filters[$tag][$priority][$idx] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
         return true;
     }

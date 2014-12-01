@@ -64,7 +64,7 @@ class _exception extends Exception
      * @param  Exception $check
      * @return void
      */
-    static function getIdx($e=null)
+    static function get_last_index($e=null)
     {
         if (!$check)
             return count(self::$_exception);
