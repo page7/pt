@@ -95,7 +95,14 @@ class log extends base
             }
         }
 
-        $log = "[{$time}] {$type} : #{$code} $message\n\n";
+        $method = $_SERVER['REQUEST_METHOD'];
+        $url = $_SERVER['REQUEST_URI'];
+        $post = '';
+        if ($method == 'POST')
+        {
+            $post = json_encode($_POST);
+        }
+        $log = "[{$time}] {$method} {$url} {$post}\n{$type} : #{$code} $message\n\n";
 
         $logfile = $this -> path . date('ymd') . '_' . $filename . '.log';
 
