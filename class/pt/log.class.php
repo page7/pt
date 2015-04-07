@@ -100,7 +100,7 @@ class log extends base
         $post = '';
         if ($method == 'POST')
         {
-            $post = empty($GLOBALS["HTTP_RAW_POST_DATA"]) ? '' : $GLOBALS["HTTP_RAW_POST_DATA"];
+            $post = empty($GLOBALS["HTTP_RAW_POST_DATA"]) ? http_build_query($_POST) : $GLOBALS["HTTP_RAW_POST_DATA"];
         }
         $log = "[{$time}] {$method} {$url} {$post}\n{$type} : #{$code} $message\n\n";
 

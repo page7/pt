@@ -28,6 +28,7 @@ class string
             'english' => '/^[A-Za-z]+$/',
     );
 
+
     /**
      * get some random char
      +-----------------------------------------
@@ -72,6 +73,7 @@ class string
         return $str;
     }
 
+
     /**
      * get a verify chars
      +-----------------------------------------
@@ -109,16 +111,22 @@ class string
      * @param int $length
      * @return void
      */
-    static function text($string, $length=0)
+    static function text($string, $length=0, $more='')
     {
         $str = trim(strip_tags($string), " ¡¡\t\n\r");
 
         if ($length)
         {
-            if(function_exists("mb_substr"))
-                return mb_substr($str, 0, $length, 'utf-8');
+            if (function_exists("mb_substr"))
+            {
+                if (mb_strlen($str, 'utf-8') > $length)
+                    return mb_substr($str, 0, $length, 'utf-8').$more;
+            }
             else
-                return iconv_substr($str, 0, $length, 'utf-8');
+            {
+                if (iconv_strlen($str, 'utf-8') > $length)
+                    return iconv_substr($str, 0, $length, 'utf-8').$more;
+            }
         }
 
         return $str;
