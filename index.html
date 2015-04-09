@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Pt-framework by page7</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Pt-framework</h1>
+        <h2>A simple / native PHP Framework</h2>
+        <a href="https://github.com/page7/pt" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="pt" class="anchor" href="#pt" aria-hidden="true"><span class="octicon octicon-link"></span></a>pt</h1>
+
+<h6>
+<a id="a-simple--native-php-framework-to-do-something-php-is-not-good-at" class="anchor" href="#a-simple--native-php-framework-to-do-something-php-is-not-good-at" aria-hidden="true"><span class="octicon octicon-link"></span></a>A simple / native PHP Framework to do something PHP is not good at.</h6>
+
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>This PHP framework is tentative. I hope it can provide more possibilities about PHP framework's develop.<br></p>
+
+<h5>
+<a id="1-a-especial-base-class" class="anchor" href="#1-a-especial-base-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. A especial base class</h5>
+
+<p>It can make subclass have <code>prototype</code> like javascript. So you can update your project with less code.<br></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">a</span> <span class="pl-k">extends</span> <span class="pl-e">base</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">protected</span> <span class="pl-smi">$a</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>hello<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(<span class="pl-smi">$config</span><span class="pl-k">=</span><span class="pl-c1">array</span>()){ }</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">b</span> <span class="pl-k">extends</span> <span class="pl-e">a</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-c1">__construct</span>(<span class="pl-smi">$config</span><span class="pl-k">=</span><span class="pl-c1">array</span>()){ }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">say</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-c1">echo</span> <span class="pl-smi">$this</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">a</span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">change</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">a</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span> world<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$a</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">a</span>();</span>
+<span class="pl-s1"><span class="pl-smi">$a</span> <span class="pl-k">-&gt;</span> extend(<span class="pl-s"><span class="pl-pds">'</span>b<span class="pl-pds">'</span></span>);      <span class="pl-c">// like prototype</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$a</span> <span class="pl-k">-&gt;</span> say();            <span class="pl-c">// output: hello</span></span>
+<span class="pl-s1"><span class="pl-smi">$a</span> <span class="pl-k">-&gt;</span> change();</span>
+<span class="pl-s1"><span class="pl-smi">$a</span> <span class="pl-k">-&gt;</span> say();            <span class="pl-c">// output: world</span></span></pre></div>
+
+<h5>
+<a id="2-integrated-action--filter-class-like-wordpress" class="anchor" href="#2-integrated-action--filter-class-like-wordpress" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Integrated Action / Filter class like wordpress</h5>
+
+<p>They are very useful in project. so pt integrated them.<br></p>
+
+<h5>
+<a id="3-more" class="anchor" href="#3-more" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. More...</h5>
+
+<p>You can read pt's code after read "How to use". This is a simple framework, you will like to use and bulid it by yourself.<br>
+Welcome everyone to make it better. :)<br></p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How To Use</h2>
+
+<p>This is a multi-entry framework. You only need include common.php in your file.<br>
+Documents is building... :P<br></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">// session start</span></span>
+<span class="pl-s1"><span class="pl-c1">define</span>(<span class="pl-s"><span class="pl-pds">"</span>SESSION_ON<span class="pl-pds">"</span></span>, <span class="pl-c1">true</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// define framework config</span></span>
+<span class="pl-s1"><span class="pl-c1">define</span>(<span class="pl-s"><span class="pl-pds">"</span>CONFIG<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">'</span>/conf/web.php<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// debug switch</span></span>
+<span class="pl-s1"><span class="pl-c1">define</span>(<span class="pl-s"><span class="pl-pds">"</span>DEBUG<span class="pl-pds">"</span></span>, <span class="pl-c1">true</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// include common</span></span>
+<span class="pl-s1"><span class="pl-k">include</span>(<span class="pl-s"><span class="pl-pds">'</span>./common.php<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// include project common functions</span></span>
+<span class="pl-s1"><span class="pl-k">include</span>(<span class="pl-c1">COMMON_PATH</span><span class="pl-k">.</span><span class="pl-s"><span class="pl-pds">'</span>web_func.php<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">/* -----v----- your code -----v----- */</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$db</span> <span class="pl-k">=</span> db(config(<span class="pl-s"><span class="pl-pds">'</span>db<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-smi">$news</span> <span class="pl-k">=</span> <span class="pl-smi">$db</span> <span class="pl-k">-&gt;</span> prepare(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-s1"><span class="pl-k">SELECT</span> <span class="pl-k">*</span> <span class="pl-k">FROM</span> <span class="pl-s">`news`</span> <span class="pl-k">WHERE</span> <span class="pl-s">`id`</span><span class="pl-k">=</span>:id</span><span class="pl-pds">"</span></span>) <span class="pl-k">-&gt;</span> execute(<span class="pl-c1">array</span>(<span class="pl-s"><span class="pl-pds">'</span>:id<span class="pl-pds">'</span></span><span class="pl-k">=&gt;</span><span class="pl-c1">1</span>));</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c1">template</span><span class="pl-k">::</span>assign(<span class="pl-s"><span class="pl-pds">'</span>news<span class="pl-pds">'</span></span>, <span class="pl-smi">$news</span>[<span class="pl-c1">0</span>]);</span>
+<span class="pl-s1"><span class="pl-c1">template</span><span class="pl-k">::</span>display(<span class="pl-s"><span class="pl-pds">'</span>login<span class="pl-pds">'</span></span>, <span class="pl-c1">true</span>);</span>
+<span class="pl-s1"></span></pre></div>
+
+<h2>
+<a id="change-log" class="anchor" href="#change-log" aria-hidden="true"><span class="octicon octicon-link"></span></a>Change Log</h2>
+
+<h6>
+<a id="alpha-01" class="anchor" href="#alpha-01" aria-hidden="true"><span class="octicon octicon-link"></span></a>Alpha 0.1</h6>
+
+<pre><code>    Date: 2014-10-06
+    Contributor: nolan
+    * This is the first version.
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/page7/pt/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/page7/pt/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/page7/pt"></a> is maintained by <a href="https://github.com/page7">page7</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
