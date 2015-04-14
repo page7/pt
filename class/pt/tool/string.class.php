@@ -2,11 +2,15 @@
 /**
  * string
  +-----------------------------------------
- * @category
- * @package string
- * @author page7 <zhounan0120@gmail.com>
- * @version $Id$
+ * @category    pt
+ * @package     pt\tool
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
+
+namespace pt\tool;
+
+
 class string
 {
 
@@ -40,7 +44,7 @@ class string
      */
     static function rand_string($len=6, $type='', $addChars='') {
         $str ='';
-        switch($type) {
+        switch ($type) {
             case 0:
                 $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.$addChars;
                 break;
@@ -62,7 +66,7 @@ class string
                 break;
         }
 
-        if ( $len > 10 )
+        if ($len > 10)
         {
             $chars = $type==1 ? str_repeat($chars, $len) : str_repeat($chars, 5);
         }
@@ -131,6 +135,51 @@ class string
 
         return $str;
     }
+
+
+    /**
+     * charset covert
+     +-----------------------------------------
+     * @access public
+     * @param string $content
+     * @param string $from
+     * @param string $to
+     * @return void
+     */
+    static function charset_convert($content, $from='gbk', $to='utf-8')
+    {
+        if (function_exists('mb_convert_encoding'))
+        {
+            return mb_convert_encoding($content, $to, $from);
+        }
+        elseif (function_exists('iconv'))
+        {
+            return iconv($from, $to, $content);
+        }
+        else
+        {
+            return $content;
+        }
+    }
+
+
+    /**
+     * get a deep path of id or hash
+     +-----------------------------------------
+     * @param string $str
+     * @param int $split_length
+     * @param int $length
+     * @param string $pad_string
+     * @param int $pad_type
+     * @return string
+     */
+    static function pad_split($str, $split_length = 3, $length = 9, $pad_string = '0', $pad_type = STR_PAD_LEFT)
+    {
+        $string = str_pad($str, $length, $pad_string, $pad_type);
+        $dirs = str_split($string, $split_length);
+        return implode('/', $dirs);
+    }
+
 
 }
 ?>

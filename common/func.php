@@ -3,7 +3,7 @@
  +-----------------------------------------
  * Common Functions
  +-----------------------------------------
- * @category    Pt
+ * @category    pt
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  +-----------------------------------------
@@ -16,12 +16,11 @@
  * @param string $classname
  * @return void
  */
+
+
 function __autoload($classname)
 {
-    if (false !== import(CLASS_PATH.'pt/'.$classname))
-        return;
-
-    if (false !== import(CLASS_PATH.$classname))
+    if (false !== import(CLASS_PATH.str_replace('\\', '/', $classname)))
         return;
 
     // Autoload path of config
@@ -73,7 +72,7 @@ function config($name='', $value=null)
 
     if (strpos($name,'.'))
     {
-        // have "." get sub config value, like db.name
+        // have "." get config value, like db.name
         $array   =  explode('.', $name);
 
         if(!isset($_config[$array[0]])) config($array[0]);
@@ -126,7 +125,7 @@ function error_handler($errno, $errstr, $errfile, $errline)
         case E_USER_ERROR:
             throw $error;
         default:
-            _exception::append($error);
+            pt\framework\exception::append($error);
     }
 }
 
@@ -154,13 +153,13 @@ function throw_exception($e)
             case E_ERROR:
             case E_RECOVERABLE_ERROR:
             case E_USER_ERROR:
-                _exception::halt($e);
+                pt\framework\exception::halt($e);
         }
     }
 
     // recode the exception if not a _exception
     if ( !is_a($e, '_exception') )
-        _exception::append($e);
+        pt\framework\exception::append($e);
 }
 
 
@@ -176,31 +175,12 @@ function throw_exception($e)
 function log_message($message, $code=0, $type='Debug')
 {
     static $log;
-    if (!$log) $log = new log(config('log'));
+    if (!$log) $log = new pt\framework\log(config('log'));
+
     $log -> write($message, $code, $type);
 }
 
 
-
-/**
- * Trace
- * debug record
- +-----------------------------------------
- * @access public
- * @param bool $message
- * @return void
- */
-function trace($message=false)
-{
-    if(!DEBUG) return;
-
-    static $trace = array();
-
-    if ($message===false)
-        return $trace;
-    else
-        $trace[] = is_string($message) ? $message : var_export($message, true);
-}
 
 
 /**
@@ -275,98 +255,6 @@ function import($path, $ext='.class.php')
 
 
 /**
- * addslashes
- +-----------------------------------------
- * @param mixed $value
- * @return mixed
- */
-function addslashes_deep($value)
-{
-    $value = is_array($value) ? array_map('addslashes_deep', $value) : addslashes($value);
-    return $value;
-}
-
-
-
-/**
- * check a path / file is writable
- +-----------------------------------------
- * @access public
- * @param  string $path
- * @return void
- */
-function _is_writable($path)
-{
-    // is not Windows, and not safe mode, use is_writable
-    if(!strstr(PHP_OS, 'WIN') && @ini_get("safe_mode") == false)
-        return is_writable($path);
-
-    // is a dir, create a file
-    if ($path{strlen($path)-1} == '/')
-        return _is_writable($path.uniqid(mt_rand()).'.tmp');
-
-    if (file_exists($path))
-    {
-        if (!($f = @fopen($path, 'r+')))
-            return false;
-        fclose($f);
-        return true;
-    }
-
-    if (!($f = @fopen($path, 'w')))
-        return false;
-    fclose($f);
-    unlink($path);
-    return true;
-}
-
-
-/**
- * a better mkdir
- +-----------------------------------------
- * @param string $dir
- * @param int $mode
- * @return void
- */
-function _mkdir($dir, $mode = 0755)
-{
-    if (is_dir($dir) || @mkdir($dir, $mode))
-    {
-        if (config("wp.build_dir_secure"))
-            file_put_contents("{$dir}/index.html", "");
-
-        return true;
-    }
-    if (!_mkdir(dirname($dir), $mode)) return false;
-    return @mkdir($dir,$mode);
-}
-
-
-
-/**
- * mkdir for a deep path
- +-----------------------------------------
- * @param string $dir
- * @return void
- */
-function mkdirs($dir)
-{
-    if (is_dir($dir)) return true;
-    $dir = explode('/', $dir);
-    $temp = '';
-    foreach ($dir as $value)
-    {
-        $temp .= $value.'/';
-        if ($value=='.' || $value == '..' || !$value) continue;
-        $return = _mkdir($temp);
-    }
-    return $return;
-}
-
-
-
-
-/**
  * short code for translate
  +-----------------------------------------
  * @param string $key
@@ -387,7 +275,7 @@ function __($key)
  */
 function translate($key)
 {
-    return language::translate($key);
+    return pt\framework\language::translate($key);
 }
 
 
@@ -423,24 +311,6 @@ function getidx($function)
 
 
 /**
- * get a deep path of id or hash
- +-----------------------------------------
- * @param string $str
- * @param int $split_length
- * @param int $length
- * @param string $pad_string
- * @param int $pad_type
- * @return string
- */
-function path_by_str($str, $split_length = 3, $length = 9, $pad_string = '0', $pad_type = STR_PAD_LEFT)
-{
-    $string = str_pad($str, $length, $pad_string, $pad_type);
-    $dirs = str_split($string, $split_length);
-    return implode('/', $dirs);
-}
-
-
-/**
  * get a db obj
  +-----------------------------------------
  * @access public
@@ -457,9 +327,11 @@ function db($config=array())
     if(isset($db[$ids]))
         return $db[$ids];
 
-    $db[$ids] = new db($config);
+    $db[$ids] = new pt\framework\db($config);
     return $db[$ids];
 }
+
+
 
 /**
  * print json result
@@ -476,28 +348,5 @@ function json_return($data, $errcode=0, $err='')
 }
 
 
-/**
- * charset covert
- +-----------------------------------------
- * @param string $content
- * @param string $from
- * @param string $to
- * @return void
- */
-function charset_convert($content, $from='gbk', $to='utf-8')
-{
-    if(function_exists('mb_convert_encoding'))
-    {
-        return mb_convert_encoding ($content, $to, $from);
-    }
-    elseif (function_exists('iconv'))
-    {
-        return iconv($from, $to, $content);
-    }
-    else
-    {
-        return $content;
-    }
-}
 
 ?>

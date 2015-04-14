@@ -1,13 +1,19 @@
 <?php
 /**
- * PDO
+ * datebase for pdo
  +-----------------------------------------
- * @category    Pt
- * @package     db_pdo
+ * @category    pt
+ * @package     pt\framework\db
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
-class db_pdo extends db
+
+namespace pt\framework\db;
+
+use pt\framework\debug as debug;
+
+
+class pdo extends \pt\framework\db
 {
     // PDO
     protected $_pdo = null;
@@ -69,17 +75,17 @@ class db_pdo extends db
 
             // persistent
             if ($this -> persistent)
-                $params[PDO::ATTR_PERSISTENT] = true;
+                $params[\PDO::ATTR_PERSISTENT] = true;
 
-            $params[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+            $params[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
 
             try
             {
                 $dsn = $this -> dsn . ((version_compare(PHP_VERSION, '5.3.6') >= 0) ? ";charset={$this -> charset}" : '');
-                $this -> _pdo = new PDO($dsn, $this->username, $this->password, $params);
-                trace("PDO: DB connection is active({$this -> dsn}).");
+                $this -> _pdo = new \PDO($dsn, $this->username, $this->password, $params);
+                debug::log("PDO: DB connection is active({$this -> dsn}).");
             }
-            catch (PDOException $e)
+            catch (\PDOException $e)
             {
                 _exception::append($e);
             }
@@ -89,9 +95,9 @@ class db_pdo extends db
         }
 
         // extend driver method
-        $this -> _driver_type = $this -> getAttribute(PDO::ATTR_DRIVER_NAME);
+        $this -> _driver_type = $this -> getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $this -> __ext('db_pdo_'.strtolower($this -> _driver_type));
+        $this -> __ext(strtolower($this -> _driver_type));
 
         return $this -> _pdo;
     }
@@ -159,7 +165,7 @@ class db_pdo extends db
     {
         $this -> _statement -> bindValue($param, $value, (int)$type);
 
-        $this -> _bindvalues[$param] = $type == PDO::PARAM_STR ? "\"{$value}\"" : var_export($value, true);
+        $this -> _bindvalues[$param] = $type == \PDO::PARAM_STR ? "\"{$value}\"" : var_export($value, true);
 
         return $this;
     }
@@ -176,7 +182,7 @@ class db_pdo extends db
     {
         foreach ($parameters as $param => $value)
         {
-            $this -> bindValue($param, $value, PDO::PARAM_STR);
+            $this -> bindValue($param, $value, \PDO::PARAM_STR);
             $this -> _bindvalues[$param] = "\"{$value}\"";
         }
 
@@ -188,7 +194,7 @@ class db_pdo extends db
                 if (is_numeric($k)) $sql = preg_replace('?', $v, $sql, 1);
                 else $sql = str_replace($k, $v, $sql);
             }
-            trace('PDO Query: <code>'.$sql.'</code>');
+            debug::log('PDO Query: <code>'.$sql.'</code>');
         }
 
         try
@@ -199,7 +205,7 @@ class db_pdo extends db
             {
                 if ($this -> _sql_method == 'SELECT')
                 {
-                    return $this -> _statement -> fetchAll(PDO::FETCH_ASSOC);
+                    return $this -> _statement -> fetchAll(\PDO::FETCH_ASSOC);
                 }
                 elseif ($this -> _sql_method == 'INSERT')
                 {
@@ -238,7 +244,7 @@ class db_pdo extends db
         try
         {
             $statement -> $this -> _pdo -> query($sql);
-            return  $statement -> fetchAll(PDO::FETCH_ASSOC);
+            return  $statement -> fetchAll(\PDO::FETCH_ASSOC);
         }
         catch(Exception $e)
         {
@@ -260,14 +266,14 @@ class db_pdo extends db
     {
         $map = array
         (
-            'bool'    => PDO::PARAM_BOOL,
-            'int'     => PDO::PARAM_INT,
-            'string'  => PDO::PARAM_STR,
-            'resource' => PDO::PARAM_LOB,
-            'NULL'     => PDO::PARAM_NULL,
+            'bool'    => \PDO::PARAM_BOOL,
+            'int'     => \PDO::PARAM_INT,
+            'string'  => \PDO::PARAM_STR,
+            'resource' => \PDO::PARAM_LOB,
+            'NULL'     => \PDO::PARAM_NULL,
         );
 
-        return isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
+        return isset($map[$type]) ? $map[$type] : \PDO::PARAM_STR;
     }
 
 
@@ -364,9 +370,8 @@ class db_pdo extends db
     {
         $this->_pdo = null;
         $this->_active = false;
-        trace('PDO: DB connection close.');
+        debug::log('PDO: DB connection close.');
     }
 
 
 }
-?>

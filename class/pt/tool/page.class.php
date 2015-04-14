@@ -2,10 +2,15 @@
 /**
  * page
  +-----------------------------------------
- * @category
- * @package page
- * @version $Id$
+ * @category    pt
+ * @package     pt\tool
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
+
+namespace pt\tool;
+
+
 class page
 {
     protected $total;

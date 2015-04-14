@@ -1,16 +1,21 @@
 <?php
 /**
- * PDO Mysql extend method
+ * pdo for oracle
  +-----------------------------------------
- * @category    Pt
- * @package     db
+ * @category    pt
+ * @package     pt\framework\db\pdo
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
-class db_pdo_mysql extends db_pdo
+
+namespace pt\framework\db\pdo;
+
+
+class oci extends \pt\framework\db\pdo
 {
 
     public function __construct($config = array()){}
+
 
     /**
      * get last insert id
@@ -20,7 +25,23 @@ class db_pdo_mysql extends db_pdo
      */
     public function getLastInsertId()
     {
-        return $this -> _pdo -> lastInsertId();
+        $query = $this -> _statement -> queryString;
+        if( preg_match("/^INSERT[\t\n ]+INTO[\t\n ]+\"?([a-z0-9\_\-]+)\"?/is", $query, $tablename) )
+        {
+            // Gets this table's last sequence value
+            $query = 'SELECT "' . $tablename[1] . '_ID".currval AS "last_value" FROM "' . $tablename[1] . '"';
+            $temp = $this -> _pdo -> prepare($query);
+            $temp -> @execute();
+
+            if($temp)
+            {
+                $rs = $temp -> fetch(PDO::FETCH_ASSOC);
+                return ( $rs ) ? $rs['last_value'] : false;
+            }
+
+            return $this -> _statement -> rowCount();
+        }
+        return false;
     }
 
 
@@ -100,5 +121,3 @@ class db_pdo_mysql extends db_pdo
 
 
 }
-
-?>

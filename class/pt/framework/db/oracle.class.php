@@ -1,13 +1,19 @@
 <?php
 /**
- * ORACLE (with php_oci8)
+ * datebase for oracle
  +-----------------------------------------
- * @category    Pt
- * @package     db_oracle
+ * @category    pt
+ * @package     pt\framework\db
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
-class db_oracle extends db
+
+namespace pt\framework\db;
+
+use pt\framework\debug as debug;
+
+
+class oracle extends \pt\framework\db
 {
     // connect params
     protected $host = '';
@@ -69,7 +75,7 @@ class db_oracle extends db
 
         if ($this -> _connect)
         {
-            trace("PDO: DB connection is active({$this -> dsn}).");
+            debug::log("PDO: DB connection is active({$this -> dsn}).");
             $this -> _active = true;
         }
         else
@@ -312,10 +318,8 @@ class db_oracle extends db
 
         oci_free_statement($this -> _statement);
         oci_close($this -> _connect);
-        trace('PDO: DB connection close.');
+        debug::log('PDO: DB connection close.');
     }
 
 
 }
-
-?>

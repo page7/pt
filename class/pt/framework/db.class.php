@@ -1,12 +1,16 @@
 <?php
 /**
- * db
+ * datebase
  +-----------------------------------------
- * @category    Pt
- * @package     db
+ * @category    pt
+ * @package     pt\framework
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
+
+namespace pt\framework;
+
+
 class db extends base
 {
     // dsn
@@ -42,7 +46,7 @@ class db extends base
         {
             // pdo link
             if(isset($this -> _children))
-                $this -> extend('db_pdo', $config);
+                $this -> __ext('pdo', $config);
         }
         else
         {
@@ -56,7 +60,7 @@ class db extends base
             );
 
             $config = array_merge($config, $_ext);
-            $this -> extend('db_'.$dns['scheme'], $config);
+            $this -> __ext($dns['scheme'], $config);
         }
 
         $this -> connect();
@@ -64,5 +68,3 @@ class db extends base
 
 
 }
-
-?>

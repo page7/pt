@@ -1,10 +1,9 @@
 <?php
 /**
- * weixin project web config
+ * project web config
  +-----------------------------------------
- * @author Page7
- * @category
- * @version $Id$
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
 
 return array(
@@ -15,4 +14,4 @@ return array(
     'reflesh_var'           => 'r',
     'i18n'                  => false,
 );
-?>
+

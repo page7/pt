@@ -1,13 +1,19 @@
 <?php
 /**
- * ODBC
+ * database for ODBC
  +-----------------------------------------
- * @category    Pt
- * @package     db_odbc
+ * @category    pt
+ * @package     pt\framework\db
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
-class db_odbc extends db
+
+namespace pt\framework\db;
+
+use pt\framework\debug as debug;
+
+
+class odbc extends \pt\framework\db
 {
     // connect params
     protected $host = '';
@@ -74,7 +80,7 @@ class db_odbc extends db
 
         if ($this -> _connect)
         {
-            trace("PDO: DB connection is active({$this -> dsn}).");
+            debug::log("PDO: DB connection is active({$this -> dsn}).");
             $this -> _active = true;
         }
         else
@@ -331,10 +337,9 @@ class db_odbc extends db
 
         odbc_free_result($this -> _statement);
         odbc_close($this -> _connect);
-        trace('PDO: DB connection close.');
+        debug::log('PDO: DB connection close.');
     }
 
 
 }
 
-?>

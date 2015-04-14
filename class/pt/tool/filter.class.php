@@ -3,11 +3,15 @@
  * filter
  * like wordpress filter
  +-----------------------------------------
- * @category
- * @package action
- * @author page7 <zhounan0120@gmail.com>
- * @version $Id$
+ * @category    pt
+ * @package     pt\tool
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
+
+namespace pt\tool;
+
+
 class filter
 {
     static $filters = array();
@@ -88,4 +92,3 @@ class filter
     }
 
 }
-?>

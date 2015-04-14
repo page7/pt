@@ -3,13 +3,18 @@
  * action
  * like wordpress action
  +-----------------------------------------
- * @category
- * @package action
- * @author page7 <zhounan0120@gmail.com>
- * @version $Id$
+ * @category    pt
+ * @package     pt\tool
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
+
+namespace pt\tool;
+
+
 class action
 {
+
     static $actions = array();
 
 
@@ -88,4 +93,3 @@ class action
     }
 
 }
-?>

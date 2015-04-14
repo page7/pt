@@ -1,15 +1,17 @@
 <?php
 /**
+ * exception
  +-----------------------------------------
- * Exception
- +-----------------------------------------
- * @author page7 <zhounan0120@gmail.com>
- * @category Exceptions
- * @version $Id$
- +-----------------------------------------
+ * @category    pt
+ * @package     pt\framework
+ * @author      page7 <zhounan0120@gmail.com>
+ * @version     $Id$
  */
 
-class _exception extends Exception
+namespace pt\framework;
+
+
+class exception extends \Exception
 {
 
     static $_exception = array();
@@ -31,6 +33,7 @@ class _exception extends Exception
     }
 
 
+
     /**
      * Record Exception
      +-----------------------------------------
@@ -43,10 +46,9 @@ class _exception extends Exception
         // log
         $message = $e -> getMessage() . ' File:' . $e -> getFile() . ' Line:' . $e -> getLine();
 
-        trace('['.get_class($e).']: '.$message);
-
         if (DEBUG)
         {
+            debug::log($message, 'Warning');
             $message .= "\n".$e -> getTraceAsString();
         }
 
@@ -55,6 +57,7 @@ class _exception extends Exception
         log_message($message, $code, get_class($e));
         self::$_exception[] = $e;
     }
+
 
 
     /**
@@ -69,12 +72,13 @@ class _exception extends Exception
         if (!$check)
             return count(self::$_exception);
 
-        for ( $i=count(self::$_exception); $i>=1; $i-- )
+        for ($i=count(self::$_exception); $i>=1; $i--)
         {
-            if(self::$_exception[$i-1] === $e)
+            if (self::$_exception[$i-1] === $e)
                 return $i;
         }
     }
+
 
 
     /**
@@ -90,13 +94,14 @@ class _exception extends Exception
 
         if(IS_AJAX)
         {
-            if(!$e['code']) $e['code'] = 9999;
-            json_return(null, $e['code'], $e['message']);
+            $code = $e->getCode();
+            json_return(null, $code ? $code : 9999, $e->getMessage());
         }
 
         if (DEBUG)
         {
             $traceInfo='';
+            $trace = $e -> getTrace();
             foreach ($trace as $t)
             {
                 $traceInfo .= $t['file'].' ('.$t['line'].') ';
@@ -115,6 +120,10 @@ class _exception extends Exception
                 }
                 $traceInfo .= ")\n";
             }
+
+            $message = $e -> getMessage() . ' File:' . $e -> getFile() . ' Line:' . $e -> getLine();
+            debug::log($message, 'Error');
+
             include COMMON_PATH.'500.php'; exit;
         }
         else
@@ -185,6 +194,3 @@ class _exception extends Exception
     }
 
 }
-
-
-?>

@@ -73,8 +73,7 @@ if (defined('SESSION_ON'))
     session_start();
 }
 
-header("Power-By: Pt-framework [zhounan0120@gmail.com]");
-
+header("Power-By: pt-framework [https://github.com/page7/pt]");
 
 // need resflesh all browser catch
 if (isset($_REQUEST[config('web.reflesh_var')]))
@@ -87,9 +86,13 @@ if (isset($_REQUEST[config('web.reflesh_var')]))
 
 // language
 if (config('web.i18n'))
-    new language(config('lang'));
+    new pt\framework\language(config('lang'));
+
+// template
+if (config('template'))
+    new pt\framework\template(config('template'));
 
 if (DEBUG)
     $GLOBALS['_initTime'] = microtime(TRUE);
+
 header("Access-Control-Allow-Origin: *");
-?>

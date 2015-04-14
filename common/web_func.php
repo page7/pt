@@ -82,49 +82,5 @@ function update_array($data)
 
 
 
-/**
- * parse a SimpleXML to array
- +-----------------------------------------
- * @param SimpleXML $SimpleXML
- * @param array $result
- * @return array
- */
-function parseXML(&$SimpleXML, &$result=array())
-{
-    foreach((array)$SimpleXML as $key => $value)
-    {
-        //var_dump($SimpleXML -> $key);
-        if($SimpleXML -> $key && $attr = (array)$SimpleXML -> $key -> attributes())
-        {
-            $result[$key] = array();
-            foreach($attr["@attributes"] as $k => $v)
-            {
-                $result[$key]['_'.$k] = $v;
-            }
-        }
-
-        if(!is_string($value))
-        {
-            if(is_array($value) && isset($value[0]))
-            {
-                $result[$key] = array();
-                foreach($value as $k => $v)
-                {
-                    parseXML($v, $result[$key][]);
-                }
-            }else{
-                parseXML($value, $result[$key]);
-            }
-        }else{
-            if(isset($result[$key]))
-                $result[$key]['#TEXTNOTE'] = $value;
-            else
-                $result[$key] = $value;
-        }
-    }
-    return $result;
-}
-
-
 
 ?>

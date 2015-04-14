@@ -2,11 +2,15 @@
 /**
  * log
  +-----------------------------------------
- * @category    Pt
- * @package     log
+ * @category    pt
+ * @package     pt\framework
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
+
+namespace pt\framework;
+
+
 class log extends base
 {
     // file max size
@@ -95,8 +99,17 @@ class log extends base
             }
         }
 
-        $method = $_SERVER['REQUEST_METHOD'];
-        $url = $_SERVER['REQUEST_URI'];
+        if (empty($_SERVER['REQUEST_METHOD']))
+        {
+            $method = 'PHP_CGI';
+            $url = $_SERVER['SCRIPT_FILENAME'];
+        }
+        else
+        {
+            $method = $_SERVER['REQUEST_METHOD'];
+            $url = $_SERVER['REQUEST_URI'];
+        }
+
         $post = '';
         if ($method == 'POST')
         {
@@ -120,6 +133,3 @@ class log extends base
 
 
 }
-
-
-?>

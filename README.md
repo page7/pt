@@ -7,6 +7,7 @@ pt
 Introduction
 ---------------------------
 This PHP framework is tentative. I hope it can provide more possibilities about PHP framework's develop.<br>
+
 #####1. A especial base class
 It can make subclass have `prototype` like javascript. So you can update your project with less code.<br>
 ```php
@@ -38,6 +39,7 @@ $a -> extend('b'); 		// like prototype
 $a -> say();			// output: hello
 $a -> change();
 $a -> say();			// output: world
+
 ```
 
 
@@ -68,17 +70,23 @@ define("DEBUG", true);
 // include common
 include('./common.php');
 
-// include project common functions
+/* -----v----- start your code -----v----- */
+
+// simplify use class
+use pt\framework\debug\console as debug;
+use pt\framework\template as template;
+
+// include your project common functions.
+// this is a demo that have some useful functions.
 include(COMMON_PATH.'web_func.php');
 
-/* -----v----- your code -----v----- */
-
+// select from datebase
 $db = db(config('db'));
+$user = $db -> prepare("SELECT `name` FROM `user` WHERE `uid`=:uid") -> execute(array(':uid'=>1));
 
-$news = $db -> prepare("SELECT * FROM `news` WHERE `id`=:id") -> execute(array(':id'=>1));
-
-template::assign('news', $news[0]);
-template::display('login', true);
+// print template
+template::assign('user', $user[0]);
+template::display('index');
 
 ```
 
@@ -90,3 +98,15 @@ Change Log
 		Date: 2014-10-06
 		Contributor: nolan
 		* This is the first version.
+
+######Alpha 0.2
+
+		Date: 2015-04-13
+		Contributor: nolan
+		* Add namespace "pt\framework" and "pt\tool".
+		* Add "pt\framework\debug" class.
+		* Add "pt\framework\debug\console" class to print debug message into browser's console (Firebug/Chrome/..).
+		* Move function "charset_convert" into class "pt\tool\string".
+		* Move function "path_by_str" into class "pt\tool\string", rename "pad_split".
+		* Move functions "_is_writable", "_mkdir", "mkdirs" into a new class "pt\tool\file".
+		* Remove function "addslashes_deep", "trace".

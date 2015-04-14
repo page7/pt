@@ -4,11 +4,15 @@
  * translations by .po / .so file
  * need extension gettext
  +-----------------------------------------
- * @category    Pt
- * @package     language
+ * @category    pt
+ * @package     pt\framework
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
+
+namespace pt\framework;
+
+
 class language extends base
 {
     // lang
@@ -24,6 +28,7 @@ class language extends base
     protected $language_var = '';
 
 
+
     // config
     public function __construct($config=array())
     {
@@ -32,6 +37,7 @@ class language extends base
 
         $GLOBALS['_lang'] = $this;
     }
+
 
 
     // set language
@@ -47,7 +53,6 @@ class language extends base
 
         setcookie($var, $lang, time() + 86400);
     }
-
 
 
 
@@ -80,4 +85,3 @@ class language extends base
 
 
 }
-?>

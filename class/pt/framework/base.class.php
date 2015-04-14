@@ -11,11 +11,15 @@
  * In reality cache add memcache plugin,
  * only need do this: $cache = new cache(array('type'=>'memcache', 'host'=>...));
  +-----------------------------------------
- * @category    Pt
- * @package     base
+ * @category    php
+ * @package     pt\framework
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
+
+namespace pt\framework;
+
+
 abstract class base
 {
 
@@ -32,8 +36,10 @@ abstract class base
     protected $_child_vars = array();
 
 
+
     // Construct, some class must pass a config
     abstract function __construct($config = array());
+
 
 
     /**
@@ -60,7 +66,7 @@ abstract class base
             if (method_exists($this, '_call'))
                 return call_user_func_array(array($this, '_call'), array($method, $args));
             else
-                trigger_error('Undefined Method:'.get_class($this).'::'.$method, E_USER_WARNING);
+                trigger_error('Undefined Method:'.get_class($this).'->'.$method, E_USER_WARNING);
         }
     }
 
@@ -136,13 +142,15 @@ abstract class base
         if (!$this -> children[$class])
         {
             $name = get_called_class();
+            $_path = str_replace('\\', '/', $name);
 
-            if($path === '')
-                $file = CLASS_PATH.'/extend/'.$class;
+            if (!$path)
+                $file = CLASS_PATH.$_path.$class;
             else
                 $file = $path.$class;
 
             import($file);
+            $class = $name.'\\'.$class;
             $extend = new $class($config);
 
             // Verify the plugin is the class's subclass.
@@ -150,7 +158,7 @@ abstract class base
                 trigger_error("have a fatal error about plugin: {$name}.extend({$class}).", E_USER_ERROR);
 
             // Use ReflectionClass to get more information of method/var.
-            $reflection = new ReflectionClass($extend);
+            $reflection = new \ReflectionClass($extend);
 
             // Sync $this vars.
             $extend -> __setParent($this);
@@ -168,7 +176,8 @@ abstract class base
                     if (isset($this -> _child_methods[$_name]))
                         trigger_error("plugin's method '{$_name}' is already exists: {$name}.extend({$class}).", E_USER_NOTICE);
 
-                    $this -> _child_methods[$_name] = $class;
+                    if (!$method -> isStatic())
+                        $this -> _child_methods[$_name] = $class;
                 }
             }
 
@@ -206,7 +215,7 @@ abstract class base
      */
     final public function __setParent($object)
     {
-        $reflection = new ReflectionClass($this);
+        $reflection = new \ReflectionClass($this);
 
         foreach ($reflection -> getProperties() as $properties)
         {
@@ -221,6 +230,7 @@ abstract class base
     }
 
 
+
     /**
      * merger config options
      +-----------------------------------------
@@ -229,15 +239,21 @@ abstract class base
      */
     final public function __config($config)
     {
-        $reflection = new ReflectionClass($this);
+        $reflection = new \ReflectionClass($this);
 
         foreach ($config as $k => $c)
         {
-            if(isset($this -> $k) && $reflection -> getProperty($k) -> class == get_class($this))
-                $this -> $k = $c;
+            if ($reflection -> hasProperty($k) && $property = $reflection -> getProperty($k))
+            {
+                if ($property -> isStatic())
+                    $property -> setValue($c);
+                else if ($property -> isPublic())
+                    $property -> setValue($this, $c);
+                else
+                    $this -> $k = $c;
+            }
         }
     }
 
 
 }
-?>
