@@ -7,7 +7,7 @@
  */
 
 return array(
-    //'path'  => '',
+    //'path'        => '',
     'dir'           => 'template',
     'vars'          => array(),
     'callback'      => array(

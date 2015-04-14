@@ -95,4 +95,3 @@ if (config('template'))
 if (DEBUG)
     $GLOBALS['_initTime'] = microtime(TRUE);
 
-header("Access-Control-Allow-Origin: *");

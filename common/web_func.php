@@ -58,8 +58,6 @@ function insert_array($data, $multiple=false, $mukey='')
  +-----------------------------------------
  * @param array $data
  * @return string
- *
- * create sephiroth 2014-03-11
  */
 function update_array($data)
 {
@@ -78,6 +76,23 @@ function update_array($data)
     }
 
     return array('sql'=>implode(',', $data), 'value'=>$value);
+}
+
+
+/**
+ * use for mysql "ON DUPLICATE KEY UPDATE"
+ +-----------------------------------------
+ * @param array $keys
+ * @return void
+ */
+function update_column($keys)
+{
+    $columns = array();
+    foreach($keys as $c)
+    {
+        $columns[] = "`{$c}`=VALUES(`{$c}`)";
+    }
+    return implode(',', $columns);
 }
 
 
