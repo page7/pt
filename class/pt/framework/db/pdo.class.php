@@ -10,7 +10,7 @@
 
 namespace pt\framework\db;
 
-use pt\framework\debug as debug;
+use \pt\framework\debug as debug;
 
 
 class pdo extends \pt\framework\db
@@ -87,7 +87,7 @@ class pdo extends \pt\framework\db
             }
             catch (\PDOException $e)
             {
-                _exception::append($e);
+                \pt\framework\exception::append($e);
             }
 
             $this -> _pdo -> exec('SET NAMES '.$this -> _pdo -> quote($this -> charset));
@@ -222,9 +222,9 @@ class pdo extends \pt\framework\db
 
             return $this -> _statement;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
-            _exception::append($e);
+            \pt\framework\exception::append($e);
             return false;
         }
     }
@@ -246,9 +246,9 @@ class pdo extends \pt\framework\db
             $statement -> $this -> _pdo -> query($sql);
             return  $statement -> fetchAll(\PDO::FETCH_ASSOC);
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
-            _exception::append($e);
+            \pt\framework\exception::append($e);
             return array();
         }
     }
