@@ -22,7 +22,6 @@ namespace pt\framework;
 
 abstract class base
 {
-
     // parent
     protected $_parent = null;
 
@@ -255,5 +254,41 @@ abstract class base
         }
     }
 
+
+
+    /**
+     * get a class instance
+     +-----------------------------------------
+     * @access public
+     * @param  array $config
+     */
+    final static function init($config=array())
+    {
+        static $_instances = array();
+
+        $classname = get_called_class();
+        if (!$config)
+        {
+            if (substr($classname, 0, 13) === 'pt\\framework\\')
+            {
+                $classname_arr = explode('\\', $classname);
+                $config_name = array_pop($classname_arr);
+            }
+            else
+            {
+                $config_name = str_replace('\\', '/', $classname);
+            }
+
+            $config = config($config_name);
+        }
+
+        array_multisort($config, SORT_DESC, SORT_STRING);
+        $ids = md5(serialize($config));
+
+        if(isset($_instances[$ids]))
+            return $_instances[$ids];
+
+        return $_instances[$ids] = new $classname($config);
+    }
 
 }

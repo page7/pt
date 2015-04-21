@@ -81,7 +81,7 @@ use pt\framework\template as template;
 include(COMMON_PATH.'web_func.php');
 
 // select from datebase
-$db = db(config('db'));
+$db = db::init();
 $user = $db -> prepare("SELECT `name` FROM `user` WHERE `uid`=:uid") -> execute(array(':uid'=>1));
 
 // print template

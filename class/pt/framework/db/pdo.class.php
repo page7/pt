@@ -10,8 +10,6 @@
 
 namespace pt\framework\db;
 
-use \pt\framework\debug as debug;
-
 
 class pdo extends \pt\framework\db
 {
@@ -83,11 +81,12 @@ class pdo extends \pt\framework\db
             {
                 $dsn = $this -> dsn . ((version_compare(PHP_VERSION, '5.3.6') >= 0) ? ";charset={$this -> charset}" : '');
                 $this -> _pdo = new \PDO($dsn, $this->username, $this->password, $params);
-                debug::log("PDO: DB connection is active({$this -> dsn}).");
+                \pt\framework\debug::log("PDO: DB connection is active({$this -> dsn}).");
             }
             catch (\PDOException $e)
             {
                 \pt\framework\exception::append($e);
+                return false;
             }
 
             $this -> _pdo -> exec('SET NAMES '.$this -> _pdo -> quote($this -> charset));
@@ -194,7 +193,7 @@ class pdo extends \pt\framework\db
                 if (is_numeric($k)) $sql = preg_replace('?', $v, $sql, 1);
                 else $sql = str_replace($k, $v, $sql);
             }
-            debug::log('PDO Query: <code>'.$sql.'</code>');
+            \pt\framework\debug::log('PDO Query: <code>'.$sql.'</code>');
         }
 
         try
@@ -370,7 +369,7 @@ class pdo extends \pt\framework\db
     {
         $this->_pdo = null;
         $this->_active = false;
-        debug::log('PDO: DB connection close.');
+        \pt\framework\debug::log('PDO: DB connection close.');
     }
 
 
