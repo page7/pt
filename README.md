@@ -75,6 +75,7 @@ include('./common.php');
 // simplify use class
 use pt\framework\debug\console as debug;
 use pt\framework\template as template;
+use pt\framework\db as db;
 
 // include your project common functions.
 // this is a demo that have some useful functions.
