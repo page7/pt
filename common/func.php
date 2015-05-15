@@ -193,7 +193,7 @@ function log_message($message, $code=0, $type='Debug')
 function redirect($url, $time=0, $msg='')
 {
     if (empty($url)) $url = 'http://'.$_SERVER['SERVER_NAME'];
-    if (empty($msg)) $msg = str_replace(array('%TIME%', '%URL%'), array($time, $url), _('redirect_msg'));
+    if (empty($msg)) $msg = str_replace(array('%TIME%', '%URL%'), array($time, $url), __('redirect_msg'));
     if (!headers_sent())
     {
         // redirect

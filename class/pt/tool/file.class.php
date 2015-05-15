@@ -60,8 +60,8 @@ class file
     {
         if (is_dir($dir) || @mkdir($dir, $mode))
         {
-            if (config("web.build_dir_secure"))
-                file_put_contents("{$dir}/index.html", "");
+            if (config("web.build_dir_secure") && !is_file("{$dir}/index.html"))
+                @file_put_contents("{$dir}/index.html", "");
 
             return true;
         }
