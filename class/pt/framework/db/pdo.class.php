@@ -208,7 +208,7 @@ class pdo extends \pt\framework\db
                 }
                 elseif ($this -> _sql_method == 'INSERT')
                 {
-                    return $lastid = $this -> getLastInsertId() ? $lastid : $this -> _statement -> rowCount();
+                    return ($lastid = $this -> getLastInsertId()) ? $lastid : $this -> _statement -> rowCount();
                 }
                 else
                 {

@@ -159,7 +159,7 @@ class oracle extends \pt\framework\db
                 }
                 elseif ($this -> _sql_method == 'INSERT')
                 {
-                    return $lastid = $this -> getLastInsertId() ? $lastid : oci_num_rows($this -> _statement);
+                    return ($lastid = $this -> getLastInsertId()) ? $lastid : oci_num_rows($this -> _statement);
                 }
                 else
                 {
