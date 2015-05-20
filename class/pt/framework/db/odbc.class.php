@@ -183,10 +183,7 @@ class odbc extends \pt\framework\db
                 }
                 elseif ($this -> _sql_method == 'INSERT')
                 {
-                    if (odbc_num_rows($this -> _statement))
-                        return $this -> getLastInsertId();
-                    else
-                        return false;
+                    return $lastid = $this -> getLastInsertId() ? $lastid : odbc_num_rows($this -> _statement);
                 }
                 else
                 {
