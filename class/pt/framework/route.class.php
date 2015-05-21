@@ -54,10 +54,11 @@ class route extends base
 
     /**
      * Get Params
-     *
+     +-----------------------------------------
      * @access protected
-     * @param mixed $path_info
-     * @param mixed $route
+     * @param string $path_info
+     * @param string $route
+     * @param string $params
      * @return void
      */
     static protected function params($path_info, $route, $params)
@@ -84,8 +85,9 @@ class route extends base
      * Add Route Rule
      +-----------------------------------------
      * @access public
-     * @param mixed $rule
+     * @param string $rule
      * @param mixed $callback
+     * @param string $params
      * @return void
      */
     static function add($rule, $callback=null, $params=null)
