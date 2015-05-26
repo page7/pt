@@ -310,28 +310,6 @@ function getidx($function)
 
 
 
-/**
- * get a db obj
- +-----------------------------------------
- * @access public
- * @param array $config
- * @return void
- */
-function db($config=array())
-{
-    static $db = array();
-
-    array_multisort($config, SORT_DESC, SORT_STRING);
-    $ids = md5(serialize($config));
-
-    if(isset($db[$ids]))
-        return $db[$ids];
-
-    $db[$ids] = new pt\framework\db($config);
-    return $db[$ids];
-}
-
-
 
 /**
  * print json result
@@ -347,6 +325,3 @@ function json_return($data, $errcode=0, $err='')
     exit(json_encode(array('s'=>(int)$errcode, 'rs'=>$data, 'err'=>$err)));
 }
 
-
-
-?>

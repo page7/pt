@@ -3,13 +3,13 @@
 // session start
 define("SESSION_ON", true);
 
-// define framework config
+// define project's config
 define("CONFIG", '/conf/web.php');
 
 // debug switch
 define("DEBUG", true);
 
-// include common
+// include framework entrance file
 include('./common.php');
 
 
@@ -18,15 +18,22 @@ include('./common.php');
 // simplify use class
 use pt\framework\debug\console as debug;
 use pt\framework\template as template;
+use pt\framework\route as route;
 
 // include your project common functions.
 // this is a demo that have some useful functions.
 include(COMMON_PATH.'web_func.php');
 
-// select from datebase
-$db = db(config('db'));
-$user = $db -> prepare("SELECT `name` FROM `user` WHERE `uid`=:uid") -> execute(array(':uid'=>1));
+// start your code
+$callback = function($arg)
+{
+    if (empty($arg)) $arg = 'World';
 
-// print template
-template::assign('user', $user[0]);
-template::display('index');
+    debug::log("use route to get \$_GET data: \n".var_export($_GET, true));
+
+    template::assign('name', $arg);
+    template::display('index');
+};
+
+route::add('/', $callback, '$m/$n/id/$id');
+route::init();

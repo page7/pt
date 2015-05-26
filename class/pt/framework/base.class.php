@@ -282,13 +282,43 @@ abstract class base
             $config = config($config_name);
         }
 
-        array_multisort($config, SORT_DESC, SORT_STRING);
-        $ids = md5(serialize($config));
+        $ids = md5(self::__serialize($config));
 
         if(isset($_instances[$ids]))
             return $_instances[$ids];
 
         return $_instances[$ids] = new $classname($config);
     }
+
+
+
+
+    /**
+     * Advanced serialize
+     +-----------------------------------------
+     * @access final
+     * @param mixed $array
+     * @return void
+     */
+    private static function __serialize($array)
+    {
+        ksort($array);
+        foreach ($array as $k => $v)
+        {
+            $type = gettype($v);
+            switch ($type)
+            {
+                case 'array':
+                    $array[$k] = self::__serialize($v);
+                    break;
+                case 'object':
+                    $array[$k] = getidx($v);
+                    break;
+            }
+        }
+
+        return serialize($array);
+    }
+
 
 }

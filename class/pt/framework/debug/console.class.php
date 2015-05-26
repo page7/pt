@@ -30,7 +30,7 @@ class console extends \pt\framework\debug
 
         echo '<script>';
 
-        echo "console.log('%cpt-framework debug console', 'font-size:14px; font-weight:700; border-bottom:#ccc solid 1px; padding:10px 300px 0px;');\n";
+        echo "console.log('%cpt-framework debug message', 'font-size:16px; font-weight:700; color:#C0C0C0;');\n";
         foreach ($trace as $value)
         {
             if (is_string($value['message']))

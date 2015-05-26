@@ -14,7 +14,17 @@ namespace pt\framework\db\pdo;
 class oci extends \pt\framework\db\pdo
 {
 
-    public function __construct($config = array()){}
+    protected $seq_suffix = '_ID';
+
+
+
+    // Construct
+    public function __construct($config = array())
+    {
+        if (!empty($config['seq_suffix']))
+            $this -> seq_suffix = $config['seq_suffix'];
+    }
+
 
 
     /**
@@ -29,7 +39,7 @@ class oci extends \pt\framework\db\pdo
         if( preg_match("/^INSERT[\t\n ]+INTO[\t\n ]+\"?([a-z0-9\_\-]+)\"?/is", $query, $tablename) )
         {
             // Gets this table's last sequence value
-            $query = 'SELECT "' . $tablename[1] . '_ID".currval AS "last_value" FROM "' . $tablename[1] . '"';
+            $query = 'SELECT "' . $tablename[1] . $this -> seq_suffix . '".currval AS "last_value" FROM "' . $tablename[1] . '"';
             $temp = $this -> _pdo -> prepare($query);
             $temp -> @execute();
 
@@ -57,7 +67,7 @@ class oci extends \pt\framework\db\pdo
     public function getColumns($table, $prefix='')
     {
         $tablename = ($prefix ? $prefix : $this -> prefix).$table;
-        $result = $this -> query("DESCRIBE `{$tablename}`");
+        $result = $this -> query("DESCRIBE \"{$tablename}\"");
 
         $columns = array();
         foreach ($result as $key => $val)

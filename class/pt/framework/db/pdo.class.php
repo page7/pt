@@ -37,12 +37,17 @@ class pdo extends \pt\framework\db
     // record query method type
     protected $_sql_method = '';
 
+    // config
+    protected $_config = array();
+
 
     // Construct
     public function __construct($config = array())
     {
         if (!empty($config['PDO::ATTR_PERSISTENT']))
             $this -> persistent = true;
+
+        $this -> _config = $config;
     }
 
 
@@ -86,6 +91,7 @@ class pdo extends \pt\framework\db
             catch (\PDOException $e)
             {
                 \pt\framework\exception::append($e);
+                $this -> _pdo = new pdo\blank();
                 return false;
             }
 
@@ -96,7 +102,7 @@ class pdo extends \pt\framework\db
         // extend driver method
         $this -> _driver_type = $this -> getAttribute(\PDO::ATTR_DRIVER_NAME);
 
-        $this -> __ext(strtolower($this -> _driver_type));
+        $this -> __ext(strtolower($this -> _driver_type), $this -> _config);
 
         return $this -> _pdo;
     }

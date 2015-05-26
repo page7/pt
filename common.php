@@ -86,11 +86,11 @@ if (isset($_REQUEST[config('web.reflesh_var')]))
 
 // language
 if (config('web.i18n'))
-    new pt\framework\language(config('lang'));
+    \pt\framework\language::init();
 
 // template
 if (config('template'))
-    new pt\framework\template(config('template'));
+    \pt\framework\template::init();
 
 if (DEBUG)
     $GLOBALS['_initTime'] = microtime(TRUE);

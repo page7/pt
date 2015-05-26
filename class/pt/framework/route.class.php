@@ -42,7 +42,10 @@ class route extends base
         $matchs = array_filter($matchs[0]);
         rsort($matchs);
 
-        if (!$matchs) $matchs = array('/');
+        if (!$matchs) $matchs = array('//');
+
+        if (!empty($routes['/']))
+            $routes['//'] = &$routes['/'];
 
         foreach ($matchs as $v)
             if (($r = substr($v, 1)) && isset($routes[$r]) && is_callable($routes[$r]['callback']))
@@ -65,13 +68,16 @@ class route extends base
     {
         $_params_val = explode('/', trim(substr($path_info, strlen($route)), '/'));
 
+        if ($last = array_pop($_params_val))
+            $_params_val[] = $last;
+
         if ($params)
         {
             $_params_key = explode('/', trim($params, '/'));
             foreach ($_params_key as $i => $k)
             {
-                if ($k[0] == '$')
-                $_GET[substr($k, 1)] = $_params_val[$i];
+                if ($k[0] == '$' && isset($_params_val[$i]))
+                    $_GET[substr($k, 1)] = $_params_val[$i];
             }
         }
 

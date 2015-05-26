@@ -14,7 +14,7 @@ return array(
         'display'       =>  function($debug)
                             {
                                 if ($debug)
-                                    pt\framework\debug\console::show();
+                                    \pt\framework\debug\console::show();
                             },
     ),
 );

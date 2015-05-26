@@ -97,5 +97,3 @@ function update_column($keys)
 
 
 
-
-?>

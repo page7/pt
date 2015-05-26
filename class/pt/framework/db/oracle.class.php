@@ -24,6 +24,8 @@ class oracle extends \pt\framework\db
 
     protected $persistent = false;
 
+    protected $seq_suffix = '_ID';
+
     // connect status
     protected $_active = false;
 
@@ -51,6 +53,9 @@ class oracle extends \pt\framework\db
 
         if(!empty($config['port']))
             $this -> port = $config['port'];
+
+        if(!empty($config['seq_suffix']))
+            $this -> seq_suffix = $config['seq_suffix'];
 
         $this -> sid = $config['database'];
 
@@ -286,7 +291,7 @@ class oracle extends \pt\framework\db
         if( preg_match("/^INSERT[\t\n ]+INTO[\t\n ]+\"?([a-z0-9\_\-]+)\"?/is", $this -> _sql, $tablename) )
         {
             // Gets this table's last  value
-            $query = 'SELECT "' . $tablename[1] . '_ID".currval AS "last_value" FROM "' . $tablename[1] . '"';
+            $query = 'SELECT "' . $tablename[1] . $this -> seq_suffix . '".currval AS "last_value" FROM "' . $tablename[1] . '"';
             $stm =  oci_parse($this -> _connect, $query);
 
             $r = @oci_execute($stm, $this -> _trans_active ? OCI_NO_AUTO_COMMIT : OCI_COMMIT_ON_SUCCESS);
