@@ -8,7 +8,7 @@ What is pt?
 Pt is an easy-to-use and portable PHP framework. It facilitates your development, making it easier and smoother.
 
 
-Documents
+User Guide
 ---------------------------
 View project's [WIKI](https://github.com/page7/pt/wiki)
 
