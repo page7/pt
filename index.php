@@ -25,7 +25,7 @@ use pt\framework\route as route;
 include(COMMON_PATH.'web_func.php');
 
 // start your code
-$callback = function($arg)
+$callback = function($arg=null)
 {
     if (empty($arg)) $arg = 'World';
 
