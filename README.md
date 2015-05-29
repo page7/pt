@@ -8,6 +8,37 @@ What is pt?
 Pt is an easy-to-use and portable PHP framework. It facilitates your development, making it easier and smoother.
 
 
+Getting Started
+---------------------------
+
+##### 1. Copy pt-framework in your project.
+Copy `class`,`common`,`conf`,`language` folders and `common.php` into your project's folder.
+
+##### 2. Create folders.
+Create `log`, `template` folders in the project (folders' name can be changed in config).<br />
+And set `log` folder writeable.
+
+##### 3. Create your first page
+And coding this:
+
+```php
+// session start
+define("SESSION_ON", true);
+
+// define project's config
+define("CONFIG", '/conf/web.php');
+
+// debug switch
+define("DEBUG", true);
+
+// include framework entrance file
+include('./common.php');
+```
+
+##### 4. If you want create a **single** entry project, to read [route](https://github.com/page7/pt/wiki/Route) page.
+#####    Or not, keep reading [datebase](https://github.com/page7/pt/wiki/Datebase) or [template](https://github.com/page7/pt/wiki/Template) page.
+
+
 User Guide
 ---------------------------
 View project's [WIKI](https://github.com/page7/pt/wiki)
