@@ -205,7 +205,7 @@ class upload
      */
     protected function filename($file)
     {
-        if(function_exists($this -> name_rule))
+        if(is_callable($this -> name_rule))
         {
             return call_user_func($this -> name_rule, $file).".".$file['extension'];
         }else {
