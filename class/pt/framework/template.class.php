@@ -81,10 +81,11 @@ class template extends base
     static function fetch($file, $output=null, $suffix='.tpl.php')
     {
         extract(self::$vars, EXTR_OVERWRITE);
-        include(self::$path.self::$dir.'/'.$file.$suffix);
 
         ob_start();
         ob_implicit_flush(0);
+
+        include(self::$path.self::$dir.'/'.$file.$suffix);
 
         $content = ob_get_clean();
         if ($output)
