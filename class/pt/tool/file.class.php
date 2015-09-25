@@ -58,7 +58,7 @@ class file
      */
     static protected function mkdir($dir, $mode = 0755)
     {
-        if (is_dir($dir) || @mkdir($dir, $mode))
+        if ( @is_dir($dir) || @mkdir($dir, $mode) )
         {
             if (config("web.build_dir_secure") && self::is_writable($dir) && !file_exists("{$dir}/index.html"))
                 @file_put_contents("{$dir}/index.html", "");
@@ -66,7 +66,7 @@ class file
             return true;
         }
 
-        if (!self::mkdir(dirname($dir), $mode)) return false;
+        if ($dir && $dir != '/' && !self::mkdir(dirname($dir), $mode)) return false;
 
         return @mkdir($dir, $mode);
     }
