@@ -96,7 +96,11 @@ class language extends base
     // translate
     public static function translate($key, $package=null)
     {
-        if (self::$extension)
+        if (!config('web.i18n'))
+        {
+            return $key;
+        }
+        else if (self::$extension)
         {
             if ($package)
                 textdomain($package);
