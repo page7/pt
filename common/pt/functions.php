@@ -334,7 +334,10 @@ function json_return($data, $errcode=0, $err='')
  * @return void
  */
 function tpl_append($path, $suffix='.tpl.php')
-{
+{{
+    if ($vars)
+        \pt\framework\template::assign($vars);
+
     \pt\framework\template::append($path, $suffix);
 }
 

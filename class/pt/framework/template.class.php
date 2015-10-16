@@ -128,7 +128,7 @@ class template extends base
     {
         $debug = DEBUG || $debug;
 
-        extract(self::$vars, EXTR_OVERWRITE);
+        extract(self::$vars, EXTR_OVERWRITE | EXTR_REFS );
 
         $path = self::$path.self::$package.'/'.$file;
         include($path.$suffix);
@@ -149,6 +149,8 @@ class template extends base
      */
     static function append($path, $suffix='.tpl.php')
     {
+        extract(self::$vars, EXTR_OVERWRITE | EXTR_REFS );
+
         include(self::$path.self::$package.'/'.$path.$suffix);
     }
 
