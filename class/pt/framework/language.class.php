@@ -16,40 +16,47 @@ namespace pt\framework;
 class language extends base
 {
     // lang
-    public $default = 'en-US';
+    static $default = 'en';
 
     // lang path
-    public $path = '';
-
-    // log send type
-    protected $type = 3;
+    static $path = '';
 
     // request key
-    protected $language_var = '';
+    static $language_var = '';
 
+    // check extension
+    static protected $extension = false;
+
+    // package selected
+    static protected $package = 'pt';
 
 
     // config
     public function __construct($config=array())
     {
         $this -> __config($config);
-        $this -> set();
 
-        $GLOBALS['_lang'] = $this;
+        if (extension_loaded('gettext'))
+        {
+            self::$extension = true;
+        }
+        self::set();
     }
 
 
 
     // set language
-    public function set($lang=null)
+    public static function set($lang=null)
     {
-        $var = $this -> language_var;
+        $var = self::$language_var;
 
         if ($lang === null)
-            $lang = isset($_GET[$var]) ? $_GET[$var] : (isset($_COOKIE[$var]) ? $_COOKIE[$var] : $this -> default);
+            $lang = isset($_GET[$var]) ? $_GET[$var] : (isset($_COOKIE[$var]) ? $_COOKIE[$var] : self::$default);
+
+        putenv("LC_ALL={$lang}");
 
         putenv("LANG={$lang}");
-        setlocale(LC_ALL, str_replace('_', '-', $lang));
+        setlocale(LC_ALL, $lang);
 
         setcookie($var, $lang, time() + 86400);
     }
@@ -57,30 +64,58 @@ class language extends base
 
 
     // get language
-    public function get()
+    public static function get()
     {
-        $var = $this -> language_var;
-        $lang = isset($_GET[$var]) ? $_GET[$var] : (isset($_COOKIE[$var]) ? $_COOKIE[$var] : $this -> default);
+        $var = self::$language_var;
+        $lang = isset($_GET[$var]) ? $_GET[$var] : (isset($_COOKIE[$var]) ? $_COOKIE[$var] : self::$default);
         return $lang;
     }
 
 
 
     // set package (domain)
-    static function package($name, $path=null)
+    public static function package($name, $path=null)
     {
-        if ($path !== null)
-            bindtextdomain($name, $GLOBALS['_lang'] -> path.$path);
+        if (self::$extension)
+        {
+            if ($path !== null)
+            {
+                bindtextdomain($name, self::$path.$path);
+                bind_textdomain_codeset($name, 'UTF-8');
+            }
 
-        textdomain($name);
+            textdomain($name);
+        }
+
+        event::trigger('pt\framework\language:package', $name);
+        self::$package = $name;
     }
 
 
 
     // translate
-    static function translate($key)
+    public static function translate($key, $package=null)
     {
-        return gettext($key);
+        if (self::$extension)
+        {
+            if ($package)
+                textdomain($package);
+
+            // Gettext be support by extension in php.ini
+            // and server-side os must install language package.
+            $trans = gettext($key);
+
+            if ($package)
+                textdomain(self::$package);
+
+            return $trans;
+        }
+        else
+        {
+            // if not config the extension, you can use a third-party support.
+            // like : https://github.com/dsp/PHP-Gettext
+            return filter::apply('pt\framework\language:untrans', $key, $package);
+        }
     }
 
 

@@ -287,7 +287,11 @@ abstract class base
         if(isset($_instances[$ids]))
             return $_instances[$ids];
 
-        return $_instances[$ids] = new $classname($config);
+        $_instances[$ids] = new $classname($config);
+
+        event::trigger("{$classname}:init", array($_instances[$ids], $config));
+
+        return $_instances[$ids];
     }
 
 
@@ -320,5 +324,40 @@ abstract class base
         return serialize($array);
     }
 
+
+
+
+    /**
+     * Bind event of listener
+     +-----------------------------------------
+     * @access public
+     * @param string    $event
+     * @param handle    $handler
+     * @param int       $priority
+     * @param int       $accepted_args
+     * @return void
+     */
+    public static function bind($event, $handler, $priority = 10, $accepted_args = 1)
+    {
+        $class = get_called_class();
+        event::bind("{$class}:{$event}", $handler, $priority, $accepted_args);
+    }
+
+
+
+
+    /**
+     * unbind
+     +-----------------------------------------
+     * @access public
+     * @param string    $event
+     * @param handle    $handler
+     * @return void
+     */
+    static public function unbind($event, $handler=null)
+    {
+        $class = get_called_class();
+        event::unbind("{$class}:{$event}", $handler);
+    }
 
 }

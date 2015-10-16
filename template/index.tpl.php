@@ -6,12 +6,19 @@
 </head>
 <body>
 
-    <h1>Hello <?php echo $name; ?> !</h1>
+    <h1><?php echo __('Hello', 'demo') . ' ' . $name; ?> !</h1>
 
+    <p>
     <?php if(!isset($_GET['m'])){ ?>
-    <p><a href="./Test/console/id/123">Goto Test Url</a></p>
+        <a href="./Test/console/id/123">Goto Test Url</a> |
     <?php } ?>
+    <?php if(\pt\framework\language::get() == 'zh_CN') { ?>
+        <a href="?lang=en">English</a>
+    <?php } else { ?>
+        <a href="?lang=zh_CN">中文</a>
+    <?php } ?>
+    </p>
 
-    <p>Please use Firebug / Chrome Developer Tool to view debug message.</p>
+    <p>Please use Firebug / Chrome Developer Tool (Press F12) to view debug message.</p>
 </body>
 </html>

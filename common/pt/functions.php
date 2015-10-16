@@ -90,9 +90,9 @@ function config($name='', $value=null)
     else
     {
         // config file is exist, require it
-        if (defined('CONFIG_PATH') && is_file(CONFIG_PATH.$name.'.php'))
+        if (defined('CONFIG_PATH') && is_file(CONFIG_PATH.$name.'.conf.php'))
         {
-            config($name, array_change_key_case(include CONFIG_PATH.$name.'.php'));
+            config($name, array_change_key_case(include CONFIG_PATH.$name.'.conf.php'));
             return $_config[$name];
         }
         else
@@ -193,7 +193,7 @@ function log_message($message, $code=0, $type='Debug')
 function redirect($url, $time=0, $msg='')
 {
     if (empty($url)) $url = 'http://'.$_SERVER['SERVER_NAME'];
-    if (empty($msg)) $msg = str_replace(array('%TIME%', '%URL%'), array($time, $url), __('redirect_msg'));
+    if (empty($msg)) $msg = str_replace(array('%TIME%', '%URL%'), array($time, $url), __('Redirect to %URL% at %TIME%s later...', 'pt'));
     if (!headers_sent())
     {
         // redirect
@@ -260,9 +260,9 @@ function import($path, $ext='.class.php')
  * @param string $key
  * @return string
  */
-function __($key)
+function __($key, $package=null)
 {
-    return translate($key);
+    return translate($key, $package);
 }
 
 
@@ -273,9 +273,9 @@ function __($key)
  * @param string $key
  * @return string
  */
-function translate($key)
+function translate($key, $package=null)
 {
-    return pt\framework\language::translate($key);
+    return pt\framework\language::translate($key, $package);
 }
 
 

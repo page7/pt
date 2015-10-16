@@ -14,31 +14,26 @@ namespace pt\framework;
 class template extends base
 {
     // template dir root path
-    static $path = PT_PATH;
+    static public $path = PT_PATH.'template/';
 
-    // template dir name
-    static $dir = 'template';
+    // template package name(dir)
+    static protected $package = '';
 
     // default variables
-    static $vars = array();
-
-    // callback
-    static $callback = array();
+    static public $vars = array();
 
 
-    // config
     public function __construct($config=array())
     {
         $this -> __config($config);
     }
 
-
     /**
      * assign
      +-----------------------------------------
      * @access public
-     * @param string $key
-     * @param mixed $value
+     * @param  string $key
+     * @param  mixed $value
      * @return void
      */
     static function assign($key, $value=null)
@@ -59,7 +54,7 @@ class template extends base
      * get
      +-----------------------------------------
      * @access public
-     * @param mixed $key
+     * @param  string $key
      * @return void
      */
     static function get($key)
@@ -70,12 +65,29 @@ class template extends base
 
 
     /**
+     * change or load package
+     +-----------------------------------------
+     * @access public
+     * @param  string $name
+     * @return void
+     */
+    static function package($name=null)
+    {
+        if (is_null($name))
+            return self::$package;
+        else
+            return self::$package = $name;
+    }
+
+
+
+    /**
      * fetch
      +-----------------------------------------
      * @access public
-     * @param string $file
-     * @param string $output
-     * @param string $suffix
+     * @param  string $file
+     * @param  string $output
+     * @param  string $suffix
      * @return void
      */
     static function fetch($file, $output=null, $suffix='.tpl.php')
@@ -85,9 +97,12 @@ class template extends base
         ob_start();
         ob_implicit_flush(0);
 
-        include(self::$path.self::$dir.'/'.$file.$suffix);
+        $path = self::$path.self::$package.'/'.$file;
+        include($path.$suffix);
 
         $content = ob_get_clean();
+        event::trigger('pt\framework\template:fetch', $path, $content, $output);
+
         if ($output)
         {
             file_put_contents($content, $output);
@@ -112,13 +127,26 @@ class template extends base
         $debug = DEBUG || $debug;
 
         extract(self::$vars, EXTR_OVERWRITE);
-        include(self::$path.self::$dir.'/'.$file.$suffix);
 
-        if (!empty(self::$callback['display']))
-        {
-            call_user_func(self::$callback['display'], $debug);
-        }
+        $path = self::$path.self::$package.'/'.$file;
+        include($path.$suffix);
+
+        event::trigger('pt\framework\template:display', $path, $debug);
     }
 
+
+
+
+    /**
+     * include
+     +-----------------------------------------
+     * @access public
+     * @param string $path
+     * @return void
+     */
+    static function call($path, $suffix='.tpl.php')
+    {
+        include(self::$path.self::$package.'/'.$path.$suffix);
+    }
 
 }

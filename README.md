@@ -26,7 +26,7 @@ And coding this:
 define("SESSION_ON", true);
 
 // define project's config
-define("CONFIG", '/conf/web.php');
+define("CONFIG", '/conf/web.conf.php');
 
 // debug switch
 define("DEBUG", true);
@@ -58,7 +58,7 @@ Change Log
 		Contributor: nolan
 		* Add namespace "pt\framework" and "pt\tool".
 		* Add "pt\framework\debug" class.
-		* Add "pt\framework\debug\console" class to print debug message into browser's console (Firebug/Chrome/..).
+		* Add "pt\framework\debug\console" class to print debug message into browser's console.
 		* Move function "charset_convert" into class "pt\tool\string".
 		* Move function "path_by_str" into class "pt\tool\string", rename "pad_split".
 		* Move functions "_is_writable", "_mkdir", "mkdirs" into a new class "pt\tool\file".
@@ -70,3 +70,20 @@ Change Log
 		Contributor: nolan
 		* Add "route".
 		* Add Project's wiki.
+
+######Beta 1.1
+
+		Date: 2015-10-15
+		Contributor: nolan
+		* Add "event", "filter" into framework.
+		* Add event's trggiers. Search : "event::trigger" or "filter::apply"
+		* UPdate template::$dir to template::$package, and change access for protected.
+		* Update class "language" about Gettext not expanded.
+		* Remove "template" class's "callback" option.
+		* Optimize the filename.
+			add path "common\pt", and move config.php and func.php into.
+			rename all config file to *.conf.php
+		Update Notice:
+		* Replace All template::$dir=* to template::package(*).
+		* Class "pt\tool\action" and "pt\tool\filter" will be remove for v2.0.
+		* Some file path and name be changed, please check.

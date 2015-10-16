@@ -18,4 +18,6 @@ return  array(
     'ajax_var'              =>  'ajax',     // AJAX request parameter by get
     'reflesh_var'           =>  'r',        // resflesh browser catch
     'i18n'                  =>  true,       // i18n support
+    'listener'              =>  array(),    // init load event's listener
+    'filter'                =>  array(),    // init load filter
 );

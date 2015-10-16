@@ -1,4 +1,8 @@
 <?php
+// Noticet : This is a project's common functions file.
+//           Not belong the framework.
+//           The following 3 functions is a helper of sql build, it's my gift :)
+
 
 /**
  * format a array for a insert query string
