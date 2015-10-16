@@ -221,7 +221,7 @@ abstract class base
             $name = $properties -> getName();
             // Subclass's property will overwrite any other,
             // so don't sync it.
-            if ($properties -> class != get_class($this))
+            if ($properties -> class != get_class($this) && !$properties -> isStatic())
                 $this -> $name = &$object -> $name;
         }
 
