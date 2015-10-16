@@ -119,7 +119,9 @@ class template extends base
      * display
      +-----------------------------------------
      * @access public
-     * @param string $file
+     * @param  string  $file
+     * @param  boolean $debug
+     * @param  string  $suffix
      * @return void
      */
     static function display($file, $debug=false, $suffix='.tpl.php')
@@ -141,10 +143,11 @@ class template extends base
      * include
      +-----------------------------------------
      * @access public
-     * @param string $path
+     * @param  string $path
+     * @param  string $suffix
      * @return void
      */
-    static function call($path, $suffix='.tpl.php')
+    static function append($path, $suffix='.tpl.php')
     {
         include(self::$path.self::$package.'/'.$path.$suffix);
     }

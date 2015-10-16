@@ -283,7 +283,6 @@ function translate($key, $package=null)
 /**
  * get a object or function id
  +-----------------------------------------
- * @access public
  * @param mixed $function
  * @return void
  */
@@ -324,4 +323,19 @@ function json_return($data, $errcode=0, $err='')
     header('Content-Type: application/json; charset=utf-8');
     exit(json_encode(array('s'=>(int)$errcode, 'rs'=>$data, 'err'=>$err)));
 }
+
+
+
+/**
+ * template include other file
+ +-----------------------------------------
+ * @param string $path
+ * @param string $suffix
+ * @return void
+ */
+function tpl_append($path, $suffix='.tpl.php')
+{
+    \pt\framework\template::append($path, $suffix);
+}
+
 
