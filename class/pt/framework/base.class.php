@@ -34,6 +34,8 @@ abstract class base
     // Record subclass's properties
     protected $_child_vars = array();
 
+    // Record subclass's static methods
+    static protected $_child_static_methods = array();
 
 
     // Construct, some class must pass a config
@@ -64,6 +66,24 @@ abstract class base
             // Not have the method, go to call "_call";
             if (method_exists($this, '_call'))
                 return call_user_func_array(array($this, '_call'), array($method, $args));
+            else
+                trigger_error('Undefined Method:'.get_class($this).'->'.$method, E_USER_WARNING);
+        }
+    }
+
+
+
+    final public static function __callStatic($method, $args)
+    {
+        if (isset(self::$_child_static_methods[$method]))
+        {
+            $class = self::$_child_static_methods[$method];
+            return call_user_func_array("{$class}::{$method}", $args);
+        }
+        else
+        {
+            if (method_exists($this, '_callStatic'))
+                return call_user_func_array(array($this, '_callStatic'), array($method, $args));
             else
                 trigger_error('Undefined Method:'.get_class($this).'->'.$method, E_USER_WARNING);
         }
@@ -177,6 +197,8 @@ abstract class base
 
                     if (!$method -> isStatic())
                         $this -> _child_methods[$_name] = $class;
+                    else
+                        self::$_child_static_methods[$_name] = $class;
                 }
             }
 
@@ -306,6 +328,8 @@ abstract class base
      */
     private static function __serialize($array)
     {
+        if (!$array) $array = array();
+
         ksort($array);
         foreach ($array as $k => $v)
         {
