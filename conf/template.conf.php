@@ -7,6 +7,6 @@
  */
 
 return array(
-    //'path'        => PT_PATH.'template/',
+    'path'          => PT_PATH . 'template/',
     'vars'          => array(),
 );

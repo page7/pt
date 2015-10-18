@@ -14,7 +14,7 @@ namespace pt\framework;
 class template extends base
 {
     // template dir root path
-    static public $path = PT_PATH.'template/';
+    static public $path = 'template/';
 
     // template package name(dir)
     static protected $package = '';
