@@ -8,13 +8,9 @@
  * @author      page7 <zhounan0120@gmail.com>
  * @version     $Id$
  */
-
-use pt\framework\event as event;
-
 namespace pt\tool;
 
-
-class action extends event
+class action extends \pt\framework\event
 {
 
     /**
