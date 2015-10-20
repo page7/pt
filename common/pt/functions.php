@@ -326,6 +326,7 @@ function json_return($data, $errcode=0, $err='')
 
 
 
+
 /**
  * template include other file
  +-----------------------------------------
@@ -333,7 +334,7 @@ function json_return($data, $errcode=0, $err='')
  * @param string $suffix
  * @return void
  */
-function tpl_append($path, $suffix='.tpl.php')
+function tpl_append($path, $suffix='.tpl.php', $vars=array())
 {
     if ($vars)
         \pt\framework\template::assign($vars);
