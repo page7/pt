@@ -105,7 +105,7 @@ class template extends base
 
         if ($output)
         {
-            file_put_contents($content, $output);
+            file_put_contents($output, $content);
         }
         else
         {
