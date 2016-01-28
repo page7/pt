@@ -266,12 +266,25 @@ abstract class base
         {
             if ($reflection -> hasProperty($k) && $property = $reflection -> getProperty($k))
             {
-                if ($property -> isStatic())
-                    $property -> setValue($c);
-                else if ($property -> isPublic())
-                    $property -> setValue($this, $c);
+                if ($property -> isPublic())
+                {
+                    if ($property -> isStatic())
+                        $property -> setValue($c);
+                    else
+                        $property -> setValue($this, $c);
+                }
                 else
-                    $this -> $k = $c;
+                {
+                    if ($property -> isStatic())
+                    {
+                        $class = get_class($this);
+                        $class::$$k = $c;
+                    }
+                    else
+                    {
+                        $this -> $k = $c;
+                    }
+                }
             }
         }
     }
