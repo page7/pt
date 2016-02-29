@@ -144,12 +144,16 @@ class template extends base
      +-----------------------------------------
      * @access public
      * @param  string $path
+     * @param  array  $vars
      * @param  string $suffix
      * @return void
      */
-    static function append($path, $suffix='.tpl.php')
+    static function append($path, $vars=array(), $suffix='.tpl.php')
     {
         extract(self::$vars, EXTR_OVERWRITE | EXTR_REFS );
+
+        if ($vars)
+            extract($vars, EXTR_OVERWRITE | EXTR_REFS );
 
         include(self::$path.self::$package.'/'.$path.$suffix);
     }

@@ -14,27 +14,16 @@ class pjax extends \pt\framework\template
 
     public function __construct($config=array())
     {
-        eval("
-        if(!function_exists('tpl_wrap'))
+        if (!defined('IS_PJAX'))
         {
-            function tpl_wrap()
-            {
-                \\pt\\framework\\template::wrap();
-            }
-
-            function tpl_unpjax(\$wrap, \$vars=array())
-            {
-                \\pt\\framework\\template::unpjax(\$wrap, \$vars);
-            }
-
-            \$template = new \\pt\\framework\\template();
-            \$template -> extend('pjax');
-
-            if (IS_AJAX && \$_SERVER['HTTP_X_PJAX'] == 'true')
+            if (IS_AJAX && $_SERVER['HTTP_X_PJAX'] == 'true')
                 define('IS_PJAX', true);
             else
                 define('IS_PJAX', false);
-        }");
+
+            $temp = \pt\framework\template::init();
+            $temp -> extend('pjax');
+        }
     }
 
 
@@ -43,7 +32,7 @@ class pjax extends \pt\framework\template
     {
         $trace = debug_backtrace();
         foreach ($trace as $v)
-            if ($v['function'] == 'include' && strpos($v['file'], 'pt\framework\template'))
+            if ($v['function'] == 'include' && strpos($v['file'], 'pt'.DIRECTORY_SEPARATOR.'framework'.DIRECTORY_SEPARATOR.'template'))
                 break;
             else if (!empty($v['file']))
                 $tmpl  = $v['file'];

@@ -324,22 +324,3 @@ function json_return($data, $errcode=0, $err='')
     exit(json_encode(array('s'=>(int)$errcode, 'rs'=>$data, 'err'=>$err)));
 }
 
-
-
-
-/**
- * template include other file
- +-----------------------------------------
- * @param string $path
- * @param string $suffix
- * @return void
- */
-function tpl_append($path, $suffix='.tpl.php', $vars=array())
-{
-    if ($vars)
-        \pt\framework\template::assign($vars);
-
-    \pt\framework\template::append($path, $suffix);
-}
-
-
