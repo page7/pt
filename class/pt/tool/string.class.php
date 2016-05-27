@@ -16,20 +16,13 @@ class string
 
     // validation type
     static $regex = array(
-            'username'=>'/^[a-zA-Z0-9_]\w{4}/',
-            'password'=>'/^\w{6}/',
-            'require'=> '/.+/',
-            'email' => '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/',
-            'phone' => '/^((\(\d{2,5}\))|(\d{3,5}\-))?(\(\d{1,4}\)|\d{1,4}-)?[1-9]\d{5,10}(\-\d{1,4})?$/',
-            'mobile' => '/^((\(\d{2,5}\))|(\d{3,5}\-))?(13|14|15|18)\d{9}$/',
-            'url' => '/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/',
-            'currency' => '/^\d+(\.\d+)?$/',
-            'number' => '/\d+$/',
-            'zip' => '/^[1-9]\d{5}$/',
-            'qq' => '/^[1-9]\d{4,13}$/',
-            'integer' => '/^[-\+]?\d+$/',
-            'double' => '/^[-\+]?\d+(\.\d+)?$/',
-            'english' => '/^[A-Za-z]+$/',
+        'require'   => '/.+/',
+        'email'     => '/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/',
+        'url'       => '/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/',
+        'currency'  => '/^\d+(\.\d+)?$/',
+        'number'    => '/\d+$/',
+        'integer'   => '/^[-\+]?\d+$/',
+        'double'    => '/^[-\+]?\d+(\.\d+)?$/',
     );
 
 
@@ -42,7 +35,8 @@ class string
      * @param string $addChars
      * @return void
      */
-    static function rand_string($len=6, $type='', $addChars='') {
+    static function random($len=6, $type='', $addChars='')
+    {
         $str ='';
         switch ($type) {
             case 0:
@@ -78,33 +72,21 @@ class string
     }
 
 
-    /**
-     * get a verify chars
-     +-----------------------------------------
-     * @access public
-     * @param int $length
-     * @param int $mode
-     * @return void
-     */
-    static function build_verify($length=4, $mode=1)
-    {
-        return self::rand_string($length, $mode);
-    }
-
 
     /**
      * validation
      +-----------------------------------------
      * @access public
-     * @param mixed $value
-     * @param mixed $checkName
+     * @param string $value
+     * @param string $regex
      * @return void
      */
-    static function check($value, $type)
+    static function check($value, $regex)
     {
-        $matchRegex = self::$regex[$type];
+        $matchRegex = isset(self::$regex[$regex]) ? self::$regex[$regex] : $regex;
         return preg_match($matchRegex, trim($value));
     }
+
 
 
     /**

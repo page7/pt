@@ -10,13 +10,18 @@
 
 namespace pt\framework;
 
+
 class event extends base
 {
 
     static $events = array();
 
 
-    public function __construct($config=array()) { }
+    public function __construct($config=array())
+    {
+        if ($config)
+            self::load($config);
+    }
 
 
     /**
