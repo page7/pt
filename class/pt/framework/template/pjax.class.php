@@ -16,7 +16,7 @@ class pjax extends \pt\framework\template
     {
         if (!defined('IS_PJAX'))
         {
-            if (IS_AJAX && $_SERVER['HTTP_X_PJAX'] == 'true')
+            if (IS_AJAX && !empty($_SERVER['HTTP_X_PJAX']) && $_SERVER['HTTP_X_PJAX'] == 'true')
                 define('IS_PJAX', true);
             else
                 define('IS_PJAX', false);
