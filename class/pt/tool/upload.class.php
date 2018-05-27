@@ -56,7 +56,7 @@ class upload
         }
         else
         {
-            if(!file::_is_writable($path))
+            if(!file::is_writable($path))
             {
                 $this -> error  =  2655;
                 return false;
