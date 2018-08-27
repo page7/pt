@@ -4,7 +4,7 @@
     "description": "An easy-to-use and portable PHP Framework",
     "keywords": ["framework","php"],
     "homepage": "https://github.com/page7/pt",
-    "license": "Apache License 2.0",
+    "license": "Artistic-2.0",
     "authors": [
         {
             "name": "Nolan Chou",
