@@ -1,0 +1,24 @@
+{
+    "name": "pt/pt-framework",
+    "type": "library",
+    "description": "An easy-to-use and portable PHP Framework",
+    "keywords": ["framework","php"],
+    "homepage": "https://github.com/page7/pt",
+    "license": "Apache License",
+    "authors": [
+        {
+            "name": "Nolan Chou",
+            "email": "zhounan0120@gmail.com",
+            "homepage": "http://www.nolanchou.com",
+            "role": "Founder"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "classmap": [
+            "common.php"
+        ]
+    }
+}
