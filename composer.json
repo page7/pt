@@ -4,7 +4,7 @@
     "description": "An easy-to-use and portable PHP Framework",
     "keywords": ["framework","php"],
     "homepage": "https://github.com/page7/pt",
-    "license": "Apache License",
+    "license": "Apache License 2.0",
     "authors": [
         {
             "name": "Nolan Chou",
@@ -13,6 +13,17 @@
             "role": "Founder"
         }
     ],
+	"support": {
+		"issues": "https://github.com/page7/pt/issues?state=open",
+		"wiki": "https://github.com/page7/pt/wiki",
+		"source": "https://github.com/page7/pt"
+	},
+	"archive": {
+		"exclude": [
+			"index.php",
+			"template/index.tpl.php"
+		]
+	},
     "require": {
         "php": ">=5.3.0"
     },
