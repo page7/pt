@@ -80,6 +80,15 @@ class language extends base
         {
             if ($path !== null)
             {
+                if (DEBUG)
+                {
+                    $oriname = $name;
+                    $name = $name . '_debug' . NOW;
+                    $path = 'debug/'.$path;
+
+                    self::debug($oriname);
+                }
+
                 bindtextdomain($name, self::$path.$path);
                 bind_textdomain_codeset($name, 'UTF-8');
             }
@@ -102,6 +111,9 @@ class language extends base
         }
         else if (self::$extension)
         {
+            if (DEBUG && $package)
+                $package = $package . '_debug' . NOW;
+
             if ($package)
                 textdomain($package);
 
@@ -121,6 +133,36 @@ class language extends base
             return filter::apply('pt\framework\language:untrans', $key, $package);
         }
     }
+
+
+
+    // copy .mo files to debug path: ./language/debug/
+    // all subdirectories must be created.
+    protected static function debug($name)
+    {
+        $list = glob(self::$path . '*');
+        foreach ($list as $path)
+        {
+            if (is_dir($path) && substr($path, -5, 5) != 'debug')
+            {
+                $sublist = glob($path . '/*');
+                foreach ($sublist as $v)
+                {
+                    $source = $v . '/' . $name;
+                    $target = str_replace(self::$path, self::$path.'debug/', $source) . '_debug' . NOW;
+
+                    if (file_exists($source.'.mo'))
+                    {
+                        if (!copy($source.'.mo', $target.'.mo'))
+                        {
+                            \pt\framework\debug::log('Language package: copy '.$name.' mo file fail.');
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
 
 }
