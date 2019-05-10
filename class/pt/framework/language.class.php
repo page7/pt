@@ -78,17 +78,15 @@ class language extends base
     {
         if (self::$extension)
         {
+            if (DEBUG)
+            {
+                self::debug($name);
+                $name = $name . '_debug' . NOW;
+                $path = $path !== null ? 'debug/'.$path : null;
+            }
+
             if ($path !== null)
             {
-                if (DEBUG)
-                {
-                    $oriname = $name;
-                    $name = $name . '_debug' . NOW;
-                    $path = 'debug/'.$path;
-
-                    self::debug($oriname);
-                }
-
                 bindtextdomain($name, self::$path.$path);
                 bind_textdomain_codeset($name, 'UTF-8');
             }
@@ -111,18 +109,15 @@ class language extends base
         }
         else if (self::$extension)
         {
-            if (DEBUG && $package)
-                $package = $package . '_debug' . NOW;
-
             if ($package)
-                textdomain($package);
+                textdomain($package . (DEBUG ? '_debug' . NOW : ''));
 
             // Gettext be support by extension in php.ini
             // and server-side os must install language package.
             $trans = gettext($key);
 
             if ($package)
-                textdomain(self::$package);
+                textdomain(self::$package . (DEBUG ? '_debug' . NOW : ''));
 
             return $trans;
         }
