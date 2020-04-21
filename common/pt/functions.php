@@ -18,7 +18,7 @@
  */
 
 
-function __autoload($classname)
+function pt_autoload($classname)
 {
     if (false !== import(CLASS_PATH.str_replace('\\', '/', $classname)))
         return;
@@ -35,6 +35,7 @@ function __autoload($classname)
     return;
 }
 
+spl_autoload_register("pt_autoload");
 
 
 /**
