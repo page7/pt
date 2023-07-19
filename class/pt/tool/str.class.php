@@ -11,7 +11,7 @@
 namespace pt\tool;
 
 
-class string
+class str
 {
 
     // validation type
