@@ -317,7 +317,7 @@ abstract class base
             $config = config($config_name);
         }
 
-        $ids = md5(self::__serialize($config));
+        $ids = md5(self::__serializeParams($config));
 
         if(isset($_instances[$ids]))
             return $_instances[$ids];
@@ -339,7 +339,7 @@ abstract class base
      * @param mixed $array
      * @return void
      */
-    private static function __serialize($array)
+    private static function __serializeParams($array)
     {
         if (!$array) $array = array();
 
@@ -350,7 +350,7 @@ abstract class base
             switch ($type)
             {
                 case 'array':
-                    $array[$k] = self::__serialize($v);
+                    $array[$k] = self::__serializeParams($v);
                     break;
                 case 'object':
                     $array[$k] = getidx($v);
