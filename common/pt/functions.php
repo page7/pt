@@ -35,7 +35,6 @@ function pt_autoload($classname)
     return;
 }
 
-spl_autoload_register("pt_autoload");
 
 
 /**

@@ -158,7 +158,7 @@ abstract class base
      */
     final protected function __ext($class, $config=array(), $path='')
     {
-        if (!isset($this -> children[$class]))
+        if (!isset($this -> _children[$class]))
         {
             $name = get_called_class();
             $_path = str_replace('\\', '/', $name);

@@ -196,7 +196,7 @@ class pdo extends \pt\framework\db
             $sql = preg_replace("/\s{1,}/", " ", $this -> _statement -> queryString);
             foreach ($this -> _bindvalues as $k => $v)
             {
-                if (is_numeric($k)) $sql = preg_replace('?', $v, $sql, 1);
+                if (is_numeric($k)) $sql = preg_replace('/\?/', $v, $sql, 1);
                 else $sql = str_replace($k, $v, $sql);
             }
             \pt\framework\debug::log('PDO Query: <code>'.$sql.'</code>');

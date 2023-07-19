@@ -79,11 +79,7 @@ class language extends base
         if (self::$extension)
         {
             if (DEBUG)
-            {
-                self::debug($name);
-                $name = $name . '_debug' . NOW;
-                $path = $path !== null ? 'debug/'.$path : null;
-            }
+                $name = filter::apply('pt\framework\language:debug', $name, self::$path.$path);
 
             if ($path !== null)
             {
@@ -110,14 +106,14 @@ class language extends base
         else if (self::$extension)
         {
             if ($package)
-                textdomain($package . (DEBUG ? '_debug' . NOW : ''));
+                textdomain($package);
 
             // Gettext be support by extension in php.ini
             // and server-side os must install language package.
             $trans = gettext($key);
 
             if ($package)
-                textdomain(self::$package . (DEBUG ? '_debug' . NOW : ''));
+                textdomain(self::$package);
 
             return $trans;
         }
@@ -129,34 +125,6 @@ class language extends base
         }
     }
 
-
-
-    // copy .mo files to debug path: ./language/debug/
-    // all subdirectories must be created.
-    protected static function debug($name)
-    {
-        $list = glob(self::$path . '*');
-        foreach ($list as $path)
-        {
-            if (is_dir($path) && substr($path, -5, 5) != 'debug')
-            {
-                $sublist = glob($path . '/*');
-                foreach ($sublist as $v)
-                {
-                    $source = $v . '/' . $name;
-                    $target = str_replace(self::$path, self::$path.'debug/', $source) . '_debug' . NOW;
-
-                    if (file_exists($source.'.mo'))
-                    {
-                        if (!copy($source.'.mo', $target.'.mo'))
-                        {
-                            \pt\framework\debug::log('Language package: copy '.$name.' mo file fail.');
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 
 

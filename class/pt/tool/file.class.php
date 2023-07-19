@@ -28,7 +28,7 @@ class file
             return is_writable($path);
 
         // is a dir, create a file
-        if ($path{strlen($path)-1} == '/')
+        if ($path[strlen($path)-1] == '/')
             return self::is_writable($path.uniqid(mt_rand()).'.tmp');
 
         if (file_exists($path))

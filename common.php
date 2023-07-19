@@ -45,7 +45,7 @@ define('COMMON_PATH', PT_PATH.'/common/');
 include(COMMON_PATH.'pt/functions.php');
 
 // register autoload
-spl_autoload_register("__autoload");
+spl_autoload_register("pt_autoload");
 
 // require convention config
 config('web', include COMMON_PATH.'pt/config.php');
